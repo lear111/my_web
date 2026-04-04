@@ -595,19 +595,21 @@
       // 方案3：尝试从网络/本地相对路径拉取已通过 git push 同步的 json 文件作为数据源
       async function fetchStaticData() {
         try {
-          const paramsProfile = await fetch('data/myweb_data/profile.json');
+          const paramsProfile = await fetch('data/myweb_data/profile.json?t=' + Date.now());
           if (paramsProfile.ok) {
             const remoteProfile = await paramsProfile.json();
             Object.assign(profile, remoteProfile);
             renderProfile(profile);
+            saveJson(PROFILE_KEY, profile); // 用远端覆盖本地旧缓存
           }
-          const paramsPosts = await fetch('data/myweb_data/posts.json');
+          const paramsPosts = await fetch('data/myweb_data/posts.json?t=' + Date.now());
           if (paramsPosts.ok) {
             posts = await paramsPosts.json();
-            renderPosts();
+            renderPosts(posts); // 修复了这里缺少参数的bug
+            saveJson(POSTS_KEY, posts); // 同步到本地
           }
         } catch (e) {
-          console.log("处于本地直接打开或未检测到远端配置文件，使用 localStorage 缓存。", e);
+          console.log("正在使用 localStorage 缓存。", e);
         }
       }
       // 页面加载时执行静态数据拉取
