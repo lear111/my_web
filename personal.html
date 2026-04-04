@@ -7,11 +7,11 @@
     <style>
       :root {
         --bg-main: #f6faf7;
-        --ink: #cfd8e3; /* 因背景较深且透明，调整文字颜色以免看不清，用亮色 */
-        --muted: #a3b8cc;
+        --ink: #1e293b; /* 极深墨色文字，高对比度 */
+        --muted: #475569; /* 深灰色副标题，加深看清 */
         --accent: #55a672;
-        --line: rgba(255, 255, 255, 0.15);
-        --card-bg: rgba(255, 255, 255, 0.15); /* 毛玻璃透明背板 */
+        --line: rgba(0, 0, 0, 0.15); /* 分割线也改暗一点增强质感 */
+        --card-bg: rgba(255, 255, 255, 0.4); /* 恢复原来的白色透明容器，微高不透明度防止透明刺眼 */
       }
 
       * { box-sizing: border-box; }
@@ -23,7 +23,7 @@
 
       body {
         margin: 0;
-        color: #fff; /* 改为白色保证通用可读性 */
+        color: var(--ink); /* 改为跟随主题变量的深文字色保证通用可读性 */
         font-family: "PingFang SC", "Heiti SC", "SimHei", "Microsoft YaHei", sans-serif;
         background: #0b1021; /* 降级背景色，由 canvas 接管 */
         min-height: 100vh;
@@ -195,21 +195,21 @@
         border-radius: 8px;
         padding: 10px;
         font: inherit;
-        background: rgba(255, 255, 255, 0.1); /* 半透明输入框 */
-        color: #fff;
+        background: rgba(255, 255, 255, 0.6); /* 稍微不透明输入框 */
+        color: var(--ink);
         transition: border-color 0.2s, background 0.2s;
       }
       
       input:focus, textarea:focus, select:focus {
         outline: none;
         border-color: var(--accent);
-        background: rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.9);
       }
       
-      /* 下拉菜单在部分浏览器展开时需要实颜色背景防止看不清 */
+      /* 下拉菜单颜色适配 */
       select option {
-        background: #2a3b4c;
-        color: #fff;
+        background: rgba(255,255,255,0.9);
+        color: #1e293b;
       }
       
       button.btn-primary {
@@ -269,7 +269,7 @@
       }
 
       .nav-btn:hover { color: var(--ink); }
-      .nav-btn.active { color: #fff; }
+      .nav-btn.active { color: var(--accent); }
 
       .nav-btn.active::after {
         content: '';
@@ -323,7 +323,7 @@
         border-bottom: 1px solid var(--line);
         padding-bottom: 12px;
       }
-      .post-header h3 { margin: 0; font-size: 1.25rem; color: #fff; }
+      .post-header h3 { margin: 0; font-size: 1.25rem; color: var(--ink); font-weight: 700; }
       .post-meta { font-size: 0.85rem; color: var(--muted); }
 
       /* 删除按钮，仅在编辑态下显示 */
@@ -423,7 +423,7 @@
           
           <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--line);">
             <p style="font-size:12px;color:var(--muted);">本地数据存储配置：</p>
-            <button id="bindDirBtn" class="btn-secondary" style="width:100%; margin-top:8px;">绑定本地同步目录</button>
+            <button type="button" id="bindDirBtn" class="btn-secondary" style="width:100%; margin-top:8px;">绑定本地同步目录</button>
           </div>
         </div>
       </aside>
@@ -516,6 +516,22 @@
     </div>
 
     <script>
+      // 全局非阻塞通知替换 alert，防止原生弹窗导致 scroll-snap 无视滚动距离强行重置置顶页面
+      window.toast = function(msg) {
+        const t = document.createElement("div");
+        t.textContent = msg;
+        t.style.cssText = "position:fixed; top:40px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,0.85); color:#fff; padding:12px 24px; border-radius:8px; z-index:9999; font-size:14px; box-shadow:0 4px 12px rgba(0,0,0,0.3); pointer-events:none; opacity:0; transition:opacity 0.3s;";
+        document.body.appendChild(t);
+        // 让它显示
+        requestAnimationFrame(() => {
+          t.style.opacity = "1";
+        });
+        setTimeout(() => {
+          t.style.opacity = "0";
+          setTimeout(() => t.remove(), 300);
+        }, 3000);
+      };
+
       const PASSWORD = "200391";
       const PROFILE_KEY = "myweb_profile_v1";
       const POSTS_KEY = "myweb_posts_v1";
@@ -613,13 +629,25 @@
 
       async function bindDataDirectory() {
         if (!window.showDirectoryPicker) {
-          window.alert("当前浏览器不支持目录写入，请使用最新版 Chrome/Edge。");
+          toast("当前浏览器不支持目录写入，请使用最新版 Chrome/Edge。");
           return false;
         }
-        const selectedDir = await window.showDirectoryPicker({ mode: "readwrite" });
-        dataDirHandle = await selectedDir.getDirectoryHandle("myweb_data", { create: true });
-        window.alert("目录绑定成功！以后的修改会自动同步到您选择目录下的 myweb_data 文件夹。");
-        return true;
+        
+        // 临时禁用 scroll-snap-type，防止选择器系统窗口关闭后浏览器焦点重新计算导致跳回页面顶部
+        document.documentElement.style.scrollSnapType = "none";
+        
+        let selectedDir;
+        try {
+          selectedDir = await window.showDirectoryPicker({ mode: "readwrite" });
+          dataDirHandle = await selectedDir.getDirectoryHandle("myweb_data", { create: true });
+          toast("目录绑定成功！以后的修改会自动同步到您选择目录下的 myweb_data 文件夹。");
+          document.documentElement.style.scrollSnapType = ""; // 恢复
+          return true;
+        } catch (e) {
+          document.documentElement.style.scrollSnapType = ""; // 恢复
+          toast("取消绑定或绑定失败");
+          return false;
+        }
       }
 
       const categoryLabelMap = {
@@ -728,14 +756,13 @@
       renderPosts(posts);
 
       toggleEditBtn.addEventListener("click", () => {
-        if (requirePassword()) body.classList.add("is-editing"); else alert("密码错误");
+        if (requirePassword()) body.classList.add("is-editing"); else toast("密码错误");
       });
       exitEditBtn.addEventListener("click", () => { body.classList.remove("is-editing"); composer.classList.remove("open"); });
 
       bindDirBtn.addEventListener("click", async () => {
         try {
-          const ok = await bindDataDirectory();
-          if (ok) await persistToDirectory(profile, posts);
+          await bindDataDirectory();
         } catch (err) {
           console.error(err);
         }
@@ -778,7 +805,7 @@
           content: el.querySelector('.block-textarea').value.trim()
         })).filter(b => b.content !== "");
 
-        if (blocksData.length === 0) return alert("请至少填写一个区块的内容");
+        if (blocksData.length === 0) return toast("请至少填写一个区块的内容");
         
         posts.push({
           id: Date.now().toString(),
@@ -791,7 +818,16 @@
         
         saveJson(POSTS_KEY, posts);
         renderPosts(posts);
-        if (dataDirHandle) persistToDirectory(profile, posts).catch(console.error);
+        if (dataDirHandle) {
+          persistToDirectory(profile, posts)
+            .then(() => toast("成功同步保存到本地硬盘！"))
+            .catch(err => {
+              console.error(err);
+              toast("保存到本地失败，请检查控制台错误：" + err.message);
+            });
+        } else {
+          toast("已在浏览器缓存中发布。注：未绑定本地目录，本次修改未存入真正的源文件！");
+        }
         
         postTitle.value = "";
         blocksContainer.innerHTML = "";
@@ -809,8 +845,11 @@
         saveJson(PROFILE_KEY, next);
         renderProfile(next);
         Object.assign(profile, next);
-        if (dataDirHandle) persistToDirectory(next, posts).catch(console.error);
-        alert("个人信息已更新");
+        if (dataDirHandle) {
+          persistToDirectory(next, posts).then(() => toast("个人信息已同步更新到本地硬盘")).catch(console.error);
+        } else {
+          toast("已在浏览器缓存更新。注：未绑定本地目录，本次修改未存入真正的源文件！");
+        }
       });
 
       // 引入 Canvas 图片压缩，解决大图片导致 localStorage 爆满报错的问题
