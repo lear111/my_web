@@ -284,7 +284,7 @@
 
       /* 悬浮快捷留言按钮 */
       #floating-comment-btn {
-        display: none;
+        display: block;
         position: fixed;
         bottom: 30px;
         right: 30px;
@@ -752,19 +752,22 @@
         
           // 处理留言板专属UI展示
         const giscusContainer = document.getElementById("giscus-container");
-        const floatingBtn = document.getElementById("floating-comment-btn");
 
         if (giscusContainer) giscusContainer.style.display = filter === "message" ? "block" : "none";
-        if (floatingBtn) floatingBtn.style.display = filter === "message" ? "block" : "none";
 
         renderPosts(posts);
       }
 
       function scrollToGiscus() {
-        const giscusContainer = document.getElementById("giscus-container");
-        if (giscusContainer) {
-          giscusContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (currentFilter !== "message") {
+          setCategoryFilter("message");
         }
+        setTimeout(() => {
+          const giscusContainer = document.getElementById("giscus-container");
+          if (giscusContainer) {
+            giscusContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 50);
       }
 
       function addBlock(type) {
