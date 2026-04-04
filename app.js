@@ -901,7 +901,7 @@ function startApp() {
       }
     });
 
-    renderer.domElement.addEventListener("click", async (ev) => {
+    renderer.domElement.addEventListener("pointerup", async (ev) => {
       if (busy || isAutoPlaying || pointerDown.moved) {
         return;
       }
