@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 700px at 12% 8%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 58%),
+    radial-gradient(900px 600px at 88% 90%, rgba(146, 170, 214, 0.35) 0%, rgba(146, 170, 214, 0) 62%),
+    linear-gradient(140deg, #f8fbff 0%, #d8e3f2 42%, #c3d1e7 100%);
+  overflow: hidden;
+}
+
+#stage {
+  width: 100%;
+  height: calc(100vh - 72px);
+  display: block;
+  transition: transform 520ms ease, opacity 520ms ease;
+}
+
+#page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(1000px 600px at 50% 45%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.45) 48%, rgba(240, 247, 255, 0.95) 100%);
+  transition: opacity 520ms ease;
+}
+
+body.is-exiting #page-transition {
+  opacity: 1;
+}
+
+body.is-exiting #stage {
+  transform: scale(0.965);
+  opacity: 0.35;
+}
+
+body.is-exiting #play-demo,
+body.is-exiting #reset-cube {
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+
+#play-demo,
+#reset-cube {
+  z-index: 6;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f2340;
+  cursor: pointer;
+}
+
+#play-demo {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  border: none;
+  padding: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #0f2747;
+  background: transparent;
+  box-shadow: none;
+}
+
+#reset-cube {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  border-radius: 999px;
+  padding: 0.6rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: linear-gradient(135deg, #ffffff, #e8effa);
+  box-shadow: 0 10px 22px rgba(16, 35, 61, 0.16);
+}
+
+#reset-cube:hover {
+  transform: translateY(-1px);
+}
+
+#play-demo:hover {
+  transform: translateX(-50%);
+  color: #0a1d36;
+  text-shadow: 0 2px 10px rgba(23, 56, 102, 0.25);
+}
+
+@media (max-width: 920px) {
+  #reset-cube {
+    right: 0.6rem;
+    bottom: 0.7rem;
+  }
+
+  #play-demo {
+    bottom: 14px;
+    font-size: 0.92rem;
+  }
+}

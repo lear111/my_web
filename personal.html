@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的个人网站</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: #132744;
+        background:
+          radial-gradient(900px 520px at 8% 10%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0) 62%),
+          radial-gradient(900px 620px at 92% 88%, rgba(154, 175, 216, 0.3) 0%, rgba(154, 175, 216, 0) 60%),
+          linear-gradient(140deg, #f8fbff 0%, #d8e3f2 45%, #c3d1e7 100%);
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 72px 24px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 5vw, 3.2rem);
+      }
+      p {
+        margin: 0 0 18px;
+        font-size: 1.05rem;
+        line-height: 1.75;
+        opacity: 0.9;
+      }
+      .card {
+        margin-top: 20px;
+        background: rgba(255, 255, 255, 0.82);
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 12px 26px rgba(16, 35, 61, 0.14);
+      }
+      a {
+        color: #0f4aa0;
+        text-decoration: none;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>你好，我是你的名字</h1>
+      <p>这里是个人网站主页示例。后续你可以替换为个人简介、项目作品、联系方式和博客内容。</p>
+      <section class="card">
+        <p>项目展示：你可以在这里放置作品截图、GitHub 链接和技术栈说明。</p>
+        <p>联系我：email@example.com</p>
+        <p><a href="index.html">返回魔方入口</a></p>
+      </section>
+    </main>
+  </body>
+</html>

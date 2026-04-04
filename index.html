@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3D 7阶魔方</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="stage"></canvas>
+    <div id="page-transition" aria-hidden="true"></div>
+    <button id="play-demo" type="button" aria-label="Enter personal site">ENTER PORTFOLIO</button>
+    <button id="reset-cube" type="button" aria-label="Reset cube">RESET</button>
+
+    <script src="./node_modules/three/build/three.min.js"></script>
+    <script src="./node_modules/three/examples/js/controls/TrackballControls.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
