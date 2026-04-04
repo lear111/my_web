@@ -56,7 +56,6 @@ const HEART_PATTERN_RULE = {
   }
 };
 
-
 const SMILE = [
   ["yellow", [7, 0], 180],
   ["yellow", [1, 0], 180],
@@ -233,7 +232,7 @@ function startApp() {
   const canvas = document.getElementById("stage");
   const scene = new THREE.Scene();
   scene.background = null;
-  scene.fog = new THREE.Fog(0xdde8f8, 25, 65);
+  scene.fog = new THREE.Fog(0x87CEEB, 25, 65);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -497,9 +496,9 @@ function startApp() {
     }
 
     const quarter = clockwiseAngle(parsed.face, parsed.horizontalChosen, layerSpec.axis, layerSpec.axisDir);
-  // 270deg clockwise is equivalent to 90deg counter-clockwise.
-  const effectiveAngle = parsed.angle === 270 ? -90 : parsed.angle;
-  const turns = effectiveAngle / 90;
+    // 270deg clockwise is equivalent to 90deg counter-clockwise.
+    const effectiveAngle = parsed.angle === 270 ? -90 : parsed.angle;
+    const turns = effectiveAngle / 90;
     const durationMs = TURN_MS / Math.max(0.1, SCRIPT_SPEED);
 
     return {
@@ -607,37 +606,14 @@ function startApp() {
   }
 
   function isFacePatternMatched(patternRule) {
-    return getPatternMismatches(patternRule, 1).length === 0;
-  }
-
-  async function autoDetectAndRedirect() {
-    if (isNavigating || busy || isAutoPlaying) {
-      return;
-    }
-
-    if (isFacePatternMatched(HEART_PATTERN_RULE)) {
-      isNavigating = true;
-      await playExitTransition();
-      window.location.href = HEART_SITE_URL;
-      return;
-    }
-
-    if (isFacePatternMatched(SMILE_PATTERN_RULE)) {
-      isNavigating = true;
-      await playExitTransition();
-      window.location.href = PERSONAL_SITE_URL;
-    }
-  }
-
-  function getPatternMismatches(patternRule, limit = 10) {
     const faceColorName = Object.keys(patternRule || {})[0];
     if (!faceColorName) {
-      return [{ key: "-", expected: "invalid-rule", actual: "missing-face" }];
+      return false;
     }
 
     const faceCode = FACE_BY_COLOR[String(faceColorName).toLowerCase()];
     if (!faceCode) {
-      return [{ key: "-", expected: "known-face-color", actual: String(faceColorName) }];
+      return false;
     }
 
     const constraints = patternRule[faceColorName] || {};
@@ -666,16 +642,31 @@ function startApp() {
     });
 
     const actual = getFaceColorGrid(faceCode);
-    const mismatches = [];
     for (const [k, expectedCode] of expected.entries()) {
       if (actual.get(k) !== expectedCode) {
-        mismatches.push({ key: k, expected: expectedCode, actual: actual.get(k) || "none" });
-        if (mismatches.length >= limit) {
-          break;
-        }
+        return false;
       }
     }
-    return mismatches;
+    return true;
+  }
+
+  async function autoDetectAndRedirect() {
+    if (isNavigating || busy || isAutoPlaying) {
+      return;
+    }
+
+    if (isFacePatternMatched(HEART_PATTERN_RULE)) {
+      isNavigating = true;
+      await playExitTransition();
+      window.location.href = HEART_SITE_URL;
+      return;
+    }
+
+    if (isFacePatternMatched(SMILE_PATTERN_RULE)) {
+      isNavigating = true;
+      await playExitTransition();
+      window.location.href = PERSONAL_SITE_URL;
+    }
   }
 
   function faceFromNormal(normal) {
