@@ -893,10 +893,12 @@ function startApp() {
       pointerDown.x = ev.clientX;
       pointerDown.y = ev.clientY;
       pointerDown.moved = false;
+      // 在手机端，如果有默认手势，不妨尝试忽略或强制取消默认，以防被 TrackballControls 劫持
     });
 
     renderer.domElement.addEventListener("pointermove", (ev) => {
-      if (Math.abs(ev.clientX - pointerDown.x) + Math.abs(ev.clientY - pointerDown.y) > 6) {
+      // 放大手机端的误触滑差容错率，手机屏幕滑动容易产生较大偏移
+      if (Math.abs(ev.clientX - pointerDown.x) + Math.abs(ev.clientY - pointerDown.y) > 15) {
         pointerDown.moved = true;
       }
     });
@@ -905,14 +907,23 @@ function startApp() {
       if (busy || isAutoPlaying || pointerDown.moved) {
         return;
       }
-      const picked = pickLayerFromEvent(ev);
+      
+      // 对于手机端，有些浏览器在 touchend/pointerup 瞬间没有 clientX，优先进行适配兼容
+      const clientX = ev.clientX !== undefined ? ev.clientX : (ev.changedTouches && ev.changedTouches.length > 0 ? ev.changedTouches[0].clientX : pointerDown.x);
+      const clientY = ev.clientY !== undefined ? ev.clientY : (ev.changedTouches && ev.changedTouches.length > 0 ? ev.changedTouches[0].clientY : pointerDown.y);
+      
+      // 模拟构造一个携带坐标的 ev 对象给选取器
+      const simulatedEv = { clientX, clientY };
+
+      const picked = pickLayerFromEvent(simulatedEv);
       if (!picked) {
         return;
       }
       setLayerHighlight(null);
       await doMoveSpec({ axis: picked.axis, layer: picked.layer, angle: picked.angle, wide: false });
-      lastHover = pickLayerFromEvent(ev);
-      setLayerHighlight(lastHover);
+      
+      const nextHover = pickLayerFromEvent(simulatedEv);
+      setLayerHighlight(nextHover);
     });
 
     window.addEventListener("resize", resize);
