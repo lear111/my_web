@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文章标题/项目名称 - Lear's World</title>
+  <style>
+    :root {
+      --bg-color: #f5f8fc;
+      --card-bg: rgba(255, 255, 255, 0.85);
+      --text-main: #333333;
+      --text-muted: #666666;
+      --accent: #55a672;
+      --link: #3f88c5;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #87CEEB;
+      background-image: linear-gradient(to top, #87CEEB 0%, #E0F6FF 100%);
+      color: var(--text-main);
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 50px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 24px;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.05rem;
+      transition: all 0.2s;
+      padding: 8px 16px;
+      background: rgba(85, 166, 114, 0.1);
+      border-radius: 8px;
+    }
+
+    .back-btn:hover {
+      transform: translateX(-4px);
+      background: rgba(85, 166, 114, 0.2);
+    }
+
+    .hero-image {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      object-fit: cover;
+      max-height: 400px;
+      background: #eef2f5;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin: 0 0 15px 0;
+      color: #1a1a1a;
+      line-height: 1.3;
+    }
+
+    .meta {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .content p {
+      margin-bottom: 1.6em;
+      font-size: 1.1rem;
+      color: #2c2c2c;
+    }
+
+    .content h2 {
+      margin-top: 2em;
+      margin-bottom: 1em;
+      font-size: 1.6rem;
+      color: #111;
+      border-bottom: 2px solid rgba(85, 166, 114, 0.2);
+      padding-bottom: 8px;
+      display: inline-block;
+    }
+
+    .content blockquote {
+      margin: 2em 0;
+      padding: 16px 20px;
+      border-left: 4px solid var(--accent);
+      background: rgba(85, 166, 114, 0.05);
+      border-radius: 0 8px 8px 0;
+      color: #444;
+      font-style: italic;
+    }
+
+    .content img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 1.5em 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .content a {
+      color: var(--link);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--link);
+      transition: all 0.2s;
+    }
+
+    .content a:hover {
+      color: #2a6596;
+      border-bottom-style: solid;
+    }
+
+    .comments-section {
+      margin-top: 60px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .comments-section h3 {
+      font-size: 1.4rem;
+      margin-bottom: 24px;
+      color: #222;
+    }
+
+    @media (max-width: 768px) {
+      .container { padding: 30px 20px; margin: 10px auto; }
+      .title { font-size: 1.8rem; }
+      .content p { font-size: 1.05rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 返回按钮，点击回到个人主页 -->
+    <a href="../personal.html" class="back-btn">← 返回个人大厅</a>
+    
+    <!-- 文章封面图 (可选，如果不需要可以将这行删除或注释掉) -->
+    <img class="hero-image" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80" alt="文章封面占位图">
+    
+    <!-- 标题 -->
+    <h1 class="title">在这里输入你的长篇文章 / 项目详情标题</h1>
+    
+    <!-- 发布信息区 -->
+    <div class="meta">
+      <span>✍️ 作者: Lear</span>
+      <span>📅 发布于: 2026-04-05</span>
+      <span>🏷️ 分类: 技术分享</span>
+    </div>
+
+    <!-- 文章正文区 -->
+    <div class="content">
+      <p>这里是正文的第一段。当你需要发布字数多、图片多、或者具有独特排版的网页时，单凭主页上的信息流卡片就显得不够用了。利用 <code>pages</code> 独立文件夹来存放长篇专栏是最好的选择。</p>
+      
+      <h2>1. 专属网页的好处</h2>
+      <p>采用独立的网页模板后，你可以尽情插入大量图片、视频甚至是交互组件，不仅页面可以独立缩放和缓存，不会拖慢主页的加载速度，还可以<strong>单独把这个网页的链接发给朋友或者面试官</strong>。</p>
+      
+      <blockquote>
+        <p>这是一段引用。写博客或记录长篇知识不仅是给别人看，更多的是作为个人的外脑数据库，方便日后查阅！🚀</p>
+      </blockquote>
+      
+      <h2>2. 如何使用这个模板？</h2>
+      <p>非常简单，遵循以下两步：</p>
+      <p>第一步：在代码编辑器里复制这个 <code>template.html</code>，然后重命名为你喜欢的英文/拼音名字（例如：<code>my-first-trip.html</code>）。</p>
+      <p>第二步：使用普通的编写修改 <code>&lt;div class="content"&gt;</code> 里面的文本和标签。保存后推送到 GitHub。</p>
+      <p>第三步：回到你的 <code>personal.html</code> 个人主页控制台，发布一条简短卡片，类型选择 URL，并把链接指向 <code>./pages/my-first-trip.html</code>。</p>
+
+      <p>这样你的访客就可以从主页通过链接无缝跳进这篇充满沉浸感的独立文章了！</p>
+    </div>
+
+    <!-- 底部单独的评论区 -->
+    <div class="comments-section">
+      <h3>💬 本页独立评论</h3>
+      <p style="font-size: 0.9em; color: gray; margin-bottom: 20px;">大家可以在这篇独立文章下针对性地留言</p>
+      <!-- Giscus -->
+      <script src="https://giscus.app/client.js"
+              data-repo="lear111/my_web"
+              data-repo-id="R_kgDOR5YCNg"
+              data-category="Announcements"
+              data-category-id="DIC_kwDOR5YCNs4C6BQG"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="top"
+              data-theme="preferred_color_scheme"
+              data-lang="zh-CN"
+              crossorigin="anonymous"
+              async>
+      </script>
+    </div>
+
+  </div>
+
+</body>
+</html>
