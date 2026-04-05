@@ -1,0 +1,138 @@
+:root {
+  --ink: #22332b;
+  --ink-soft: #48685a;
+  --panel: rgba(245, 255, 249, 0.82);
+  --btn: #2a8857;
+  --btn-2: #46aa74;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: "Avenir Next", "Segoe UI Variable", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(180deg, #d7edff 0%, #e7f6ef 42%, #9bcf98 100%);
+}
+
+#field {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+.hud {
+  position: fixed;
+  z-index: 8;
+  left: 14px;
+  right: 14px;
+  top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.stats,
+.dialog-wrap,
+.controls {
+  width: max-content;
+  max-width: min(92vw, 780px);
+  background: var(--panel);
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 28px rgba(31, 83, 57, 0.12);
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tag {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #1f6a44;
+  background: rgba(227, 251, 237, 0.95);
+  border-radius: 999px;
+  padding: 4px 8px;
+}
+
+#growthLabel {
+  color: #1d4f37;
+  font-size: 0.95rem;
+}
+
+.tree-name {
+  color: #255c40;
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.dialog-bubble {
+  color: var(--ink);
+  line-height: 1.55;
+  min-height: 1.6em;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.controls button,
+.controls input {
+  border: 0;
+  border-radius: 9px;
+  font-size: 0.92rem;
+}
+
+.controls button {
+  color: #fff;
+  background: linear-gradient(145deg, var(--btn), var(--btn-2));
+  padding: 9px 14px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  filter: brightness(1.05);
+}
+
+#questionInput {
+  min-width: 220px;
+  padding: 9px 11px;
+  color: var(--ink);
+  background: #f7fffa;
+}
+
+#questionInput:focus {
+  outline: 2px solid rgba(49, 150, 97, 0.45);
+}
+
+@media (max-width: 760px) {
+  .controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #questionInput {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  .controls button {
+    width: 100%;
+  }
+}

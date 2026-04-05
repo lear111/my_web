@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>智慧树对话</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <canvas id="field" aria-label="智慧树画布"></canvas>
+
+  <main class="hud">
+    <section class="stats">
+      <span class="tag">Wise Tree</span>
+      <strong id="growthLabel">成长值 1.0</strong>
+    </section>
+
+    <section class="dialog-wrap">
+      <div class="tree-name">智慧树</div>
+      <div id="dialogBubble" class="dialog-bubble">你好呀，小园丁。给我一点养分，我们边长边聊。</div>
+    </section>
+
+    <section class="controls">
+      <button id="feedBtn" type="button">浇灌养分</button>
+      <input id="questionInput" type="text" placeholder="" />
+      <button id="askBtn" type="button">提问</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
