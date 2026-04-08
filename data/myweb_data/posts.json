@@ -24,5 +24,39 @@
       }
     ],
     "createdAt": 1775297299083
+  },
+  {
+    "id": "1775352279729",
+    "category": "project",
+    "align": "left",
+    "title": "植树节",
+    "blocks": [
+      {
+        "type": "text",
+        "content": "这是之前做的植树节主题网页，功能略有缺失"
+      },
+      {
+        "type": "url",
+        "content": "https://lear111.github.io/my_web/pages/tree_day/index.html"
+      }
+    ],
+    "createdAt": 1775352279729
+  },
+  {
+    "id": "1775620910784",
+    "category": "contact",
+    "align": "left",
+    "title": "个人简历发布",
+    "blocks": [
+      {
+        "type": "text",
+        "content": "下面是我个人简历链接"
+      },
+      {
+        "type": "url",
+        "content": "https://github.com/lear111/my_resume"
+      }
+    ],
+    "createdAt": 1775620910784
   }
 ]
